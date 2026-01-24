@@ -1,4 +1,4 @@
-import { Gift, Home, Plane } from "lucide-react";
+import { Gift, Home } from "lucide-react";
 
 const giftOptions = [
   {
@@ -7,13 +7,6 @@ const giftOptions = [
     description: "Escolha um presente da nossa lista",
     link: "#",
     linkText: "Ver lista",
-  },
-  {
-    icon: Plane,
-    title: "Lua de mel",
-    description: "Contribua para a nossa viagem dos sonhos",
-    link: "#",
-    linkText: "Contribuir",
   },
   {
     icon: Gift,
@@ -36,7 +29,7 @@ export function Gifts() {
           presentear, ficaremos muito gratos.
         </p>
 
-        <div className="grid sm:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
           {giftOptions.map((option, index) => (
             <div
               key={index}

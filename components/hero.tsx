@@ -32,9 +32,20 @@ export function Hero() {
             />
           </div>
           
-          {/* Data - Sem borda, fonte serif igual ao navbar */}
-          <div className="mt-0">
-            <p className="font-serif font-light text-lg sm:text-xl tracking-wider text-charcoal/70">
+          {/* Data e Versículo Bíblico */}
+          <div className="mt-0 space-y-6">
+            {/* Versículo Bíblico */}
+            <div className="max-w-2xl mx-auto">
+              <p className="font-serif font-light text-base sm:text-lg italic text-charcoal/60 leading-relaxed mb-2">
+                "Há um momento para tudo e um tempo para todo propósito debaixo do céu."
+              </p>
+              <p className="font-sans text-xs sm:text-sm text-charcoal/50 tracking-wider">
+                Eclesiastes 3:1
+              </p>
+            </div>
+
+            {/* Data */}
+            <p className="font-serif font-light text-lg sm:text-xl tracking-wider text-charcoal/70 pt-4">
               13 de junho de 2026
             </p>
           </div>
