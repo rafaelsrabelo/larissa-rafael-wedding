@@ -1,26 +1,62 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  
+  /* Paleta minimalista - tons rose/terra */
+  --color-warm-white: oklch(0.98 0.008 45);
+  --color-charcoal: oklch(0.28 0.015 30);
+  --color-sand: oklch(0.90 0.025 55);
+  --color-rose-earth: oklch(0.65 0.08 35);
+  --color-border-subtle: oklch(0.88 0.015 40);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border-subtle;
   }
-}
+  
+  body {
+    @apply bg-warm-white text-charcoal;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Smooth fade-in animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+  }
+
+  .animate-delay-200 {
+    animation-delay: 200ms;
+    opacity: 0;
+  }
+
+  .animate-delay-400 {
+    animation-delay: 400ms;
+    opacity: 0;
+  }
+
+  .animate-delay-600 {
+    animation-delay: 600ms;
+    opacity: 0;
+  }
+
+  .animate-delay-800 {
+    animation-delay: 800ms;
+    opacity: 0;
+  }
 }
