@@ -20,19 +20,15 @@ export function OurStory() {
 
         <div className="space-y-6 text-charcoal/80 leading-relaxed">
           <p className="font-sans text-base sm:text-lg">
-            Há alguns anos, nossos caminhos se cruzaram de uma forma
-            inesperada, mas que parecia ter sido sempre destinada a acontecer.
+            Nossos caminhos se cruzaram há quase dez anos, mas Deus ainda precisava nos preparar para o momento perfeito. Quando nos demos conta, nossas vidas já estavam entrelaçadas novamente — e, dessa vez, era diferente.
           </p>
 
           <p className="font-sans text-base sm:text-lg">
-            Desde então, construímos uma história feita de pequenos momentos,
-            risadas compartilhadas, desafios superados juntos e muito amor.
+            Foi assim que começamos a escrever nossa caminhada juntos, fortalecendo, dia após dia, um amor cada vez mais sólido, com a certeza de que queríamos algo a mais.
           </p>
 
           <p className="font-sans text-base sm:text-lg">
-            Agora, queremos celebrar esse amor ao lado das pessoas que fazem
-            parte das nossas vidas. Será uma honra ter você conosco neste dia
-            tão especial.
+            Hoje, queremos celebrar esse amor e a convicção de que, desde o início, Deus já havia planejado tudo. Será uma honra dividir esse dia tão especial com pessoas tão importantes para nós.
           </p>
         </div>
       </div>
