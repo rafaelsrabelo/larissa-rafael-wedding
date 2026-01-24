@@ -6,7 +6,8 @@ import Link from "next/link";
 
 const navItems = [
   { label: "Nossa História", href: "#historia" },
-  { label: "Detalhes", href: "#detalhes" },
+  { label: "Cerimônia", href: "#detalhes" },
+  { label: "Recepção", href: "#recepcao" },
   { label: "Confirmar", href: "#confirmar" },
   { label: "Presentes", href: "#presentes" },
 ];
