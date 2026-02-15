@@ -213,7 +213,7 @@ export default function PresentesPage() {
                       <CardContent className="flex flex-col flex-1 min-w-0 p-5 pt-4 space-y-3">
                         <div className="space-y-1.5 min-h-0">
                           <h2
-                            className="font-serif text-lg font-light text-charcoal-dark tracking-tight line-clamp-2"
+                            className="font-serif text-lg font-light text-charcoal-dark tracking-tight truncate"
                             title={item.name}
                           >
                             {item.name}
@@ -319,7 +319,7 @@ export default function PresentesPage() {
                           </td>
                           <td className="py-3 px-4 font-serif font-light text-charcoal-dark max-w-[200px] sm:max-w-xs">
                             <span
-                              className="line-clamp-2 block"
+                              className="block truncate"
                               title={item.name}
                             >
                               {item.name}
