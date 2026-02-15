@@ -1,100 +1,84 @@
 import { MapPin } from "lucide-react";
 
+const detailCardClass =
+  "p-6 sm:p-8 bg-warm-white/50 border border-charcoal/5 transition-colors hover:border-charcoal/10";
+const labelClass =
+  "font-sans text-[11px] sm:text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-2";
+const valueClass = "font-serif font-light text-base sm:text-lg text-charcoal-dark leading-relaxed";
+const valueDisplayClass =
+  "font-display font-light text-base sm:text-lg text-charcoal-dark tracking-[0.15em]";
+
 export function Details() {
   return (
     <>
-      {/* Cerimônia */}
+      {/* Cerimônia & Recepção — layout unificado */}
       <section className="py-24 px-4" id="detalhes">
-        <div className="w-full max-w-xl mx-auto">
-          <h2 className="font-serif font-light text-4xl sm:text-5xl text-center text-charcoal mb-16">
+        <div className="w-full max-w-4xl mx-auto">
+          <h2 className="font-serif font-light text-4xl sm:text-5xl text-center text-charcoal-dark mb-16">
             Cerimônia
           </h2>
 
-          <div className="space-y-12">
-            <div className="text-center space-y-3">
-              <h3 className="font-sans text-xs sm:text-sm uppercase tracking-widest text-charcoal/60 mb-2">
-                Data
-              </h3>
-              <p className="font-serif text-2xl sm:text-3xl text-charcoal">
-                13 de junho de 2026
+          <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+            {/* Local */}
+            <div className={`${detailCardClass} sm:col-span-2`}>
+              <p className={labelClass}>Local</p>
+              <p className={valueClass}>Igreja Matriz Nossa Senhora dos Remédios</p>
+              <p className="font-sans font-light text-sm text-charcoal/60 mt-2">
+                Av. da Universidade 2974, Benfica — Fortaleza
               </p>
-            </div>
-
-            <div className="w-12 h-px bg-charcoal/20 mx-auto" />
-
-            <div className="text-center space-y-3">
-              <h3 className="font-sans text-xs sm:text-sm uppercase tracking-widest text-charcoal/60 mb-2">
-                Horário
-              </h3>
-              <p className="font-serif text-2xl sm:text-3xl text-charcoal">
-                18h30
-              </p>
-            </div>
-
-            <div className="w-12 h-px bg-charcoal/20 mx-auto" />
-
-            <div className="text-center space-y-3">
-              <h3 className="font-sans text-xs sm:text-sm uppercase tracking-widest text-charcoal/60 mb-2">
-                Traje
-              </h3>
-              <p className="font-serif text-2xl sm:text-3xl text-charcoal">
-                Passeio Completo
-              </p>
-            </div>
-
-            <div className="w-12 h-px bg-charcoal/20 mx-auto" />
-
-            <div className="text-center space-y-4">
-              <h3 className="font-sans text-xs sm:text-sm uppercase tracking-widest text-charcoal/60 mb-2">
-                Local
-              </h3>
-              <p className="font-serif text-2xl sm:text-3xl text-charcoal">
-                Igreja Matriz Nossa Senhora dos Remédios
-              </p>
-              <p className="font-sans text-base text-charcoal/70">
-                Av. da Universidade 2974, Benfica - Fortaleza - CE
-              </p>
-
               <a
                 href="https://www.google.com/maps/search/?api=1&query=Av.+da+Universidade+2974,+Benfica,+Fortaleza,+CE"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-6 px-6 py-3 font-sans text-sm tracking-wide border border-charcoal/20 text-charcoal transition-all hover:bg-charcoal hover:text-warm-white hover:border-charcoal"
+                className="inline-flex items-center gap-1.5 mt-4 font-sans text-xs tracking-widest uppercase text-charcoal/60 hover:text-charcoal-dark transition-colors"
               >
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-3.5 h-3.5" strokeWidth={1.5} />
                 Ver no mapa
               </a>
+            </div>
+
+            {/* Data */}
+            <div className={detailCardClass}>
+              <p className={labelClass}>Data</p>
+              <p className={valueDisplayClass}>13 | 06 | 2026</p>
+            </div>
+
+            {/* Horário */}
+            <div className={detailCardClass}>
+              <p className={labelClass}>Horário</p>
+              <p className={valueDisplayClass}>18h30</p>
+            </div>
+
+            {/* Traje */}
+            <div className={`${detailCardClass} sm:col-span-2`}>
+              <p className={labelClass}>Traje</p>
+              <p className={valueClass}>Passeio Completo</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Recepção */}
+      {/* Recepção — mesma estrutura */}
       <section className="py-24 px-4 bg-sand/30" id="recepcao">
-        <div className="w-full max-w-xl mx-auto">
-          <h2 className="font-serif font-light text-4xl sm:text-5xl text-center text-charcoal mb-16">
+        <div className="w-full max-w-4xl mx-auto">
+          <h2 className="font-serif font-light text-4xl sm:text-5xl text-center text-charcoal-dark mb-16">
             Recepção
           </h2>
 
-          <div className="space-y-12">
-            <div className="text-center space-y-4">
-              <h3 className="font-sans text-xs sm:text-sm uppercase tracking-widest text-charcoal/60 mb-2">
-                Local
-              </h3>
-              <p className="font-serif text-2xl sm:text-3xl text-charcoal">
-                North Buffet Eventos
+          <div className="flex justify-center">
+            <div className={`${detailCardClass} w-full max-w-xl text-center`}>
+              <p className={labelClass}>Local</p>
+              <p className={valueClass}>North Buffet Eventos</p>
+              <p className="font-sans font-light text-sm text-charcoal/60 mt-2">
+                Tv. Antônio Joaquim, 55 — Antônio Bezerra, Fortaleza
               </p>
-              <p className="font-sans text-base text-charcoal/70">
-                Tv. Antônio Joaquim, 55 - Antônio Bezerra, Fortaleza - CE
-              </p>
-
               <a
                 href="https://www.google.com/maps/search/?api=1&query=Tv.+Antônio+Joaquim,+55,+Antônio+Bezerra,+Fortaleza,+CE"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-6 px-6 py-3 font-sans text-sm tracking-wide border border-charcoal/20 text-charcoal transition-all hover:bg-charcoal hover:text-warm-white hover:border-charcoal"
+                className="inline-flex items-center gap-1.5 mt-4 font-sans text-xs tracking-widest uppercase text-charcoal/60 hover:text-charcoal-dark transition-colors"
               >
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-3.5 h-3.5" strokeWidth={1.5} />
                 Ver no mapa
               </a>
             </div>

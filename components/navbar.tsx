@@ -8,7 +8,6 @@ const navItems = [
   { label: "Nossa História", href: "#historia" },
   { label: "Cerimônia", href: "#detalhes" },
   { label: "Recepção", href: "#recepcao" },
-  { label: "Confirmar", href: "#confirmar" },
   { label: "Presentes", href: "#presentes" },
 ];
 
@@ -36,9 +35,13 @@ export function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center h-20 sm:h-24 relative">
-          {/* Logo - Centralizada no mobile, esquerda no desktop */}
+          {/* Logo - branca no topo, normal após scroll */}
           <Link href="#" className="md:absolute md:left-0 flex-shrink-0 group">
-            <div className="relative w-28 sm:w-36 h-10 sm:h-12 transition-opacity group-hover:opacity-70">
+            <div
+              className={`relative w-28 sm:w-36 h-10 sm:h-12 transition-all duration-500 group-hover:opacity-70 ${
+                isScrolled ? "" : "brightness-0 invert"
+              }`}
+            >
               <Image
                 src="/logo-monogram.png"
                 alt="Larissa & Rafael"
@@ -49,22 +52,28 @@ export function Navbar() {
             </div>
           </Link>
 
-          {/* Navigation Links - Desktop - Centralizado */}
+          {/* Navigation Links - Desktop - brancos no topo, escuros após scroll */}
           <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="font-serif text-sm lg:text-base text-charcoal/70 hover:text-rose-earth transition-colors tracking-wide"
+                className={`font-serif text-sm lg:text-base transition-colors tracking-wide ${
+                  isScrolled
+                    ? "text-charcoal-dark/90 hover:text-rose-earth"
+                    : "text-white hover:text-white/80"
+                }`}
               >
                 {item.label}
               </Link>
             ))}
           </div>
 
-          {/* Mobile Menu Button - Posicionado absoluto no canto direito */}
+          {/* Mobile Menu Button - branco no topo, escuro após scroll */}
           <button
-            className="md:hidden absolute right-0 p-2 text-charcoal/70 hover:text-rose-earth transition-colors"
+            className={`md:hidden absolute right-0 p-2 transition-colors ${
+              isScrolled ? "text-charcoal-dark/90 hover:text-rose-earth" : "text-white hover:text-white/80"
+            }`}
             aria-label="Menu"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -76,6 +85,7 @@ export function Navbar() {
               strokeWidth="1.5"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden
             >
               {isMobileMenuOpen ? (
                 <path d="M6 18L18 6M6 6l12 12" />
@@ -95,7 +105,7 @@ export function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
-                className="block py-3 font-serif text-lg text-charcoal/70 hover:text-rose-earth transition-colors text-center border-b border-charcoal/5 last:border-0"
+                className="block py-3 font-serif text-lg text-charcoal-dark/90 hover:text-rose-earth transition-colors text-center border-b border-charcoal/5 last:border-0"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item.label}

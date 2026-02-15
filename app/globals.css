@@ -6,10 +6,12 @@
 @theme inline {
   --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
   
   /* Paleta minimalista - tons rose/terra */
   --color-warm-white: oklch(0.98 0.008 45);
   --color-charcoal: oklch(0.28 0.015 30);
+  --color-charcoal-dark: oklch(0.32 0.015 30);
   --color-sand: oklch(0.90 0.025 55);
   --color-rose-earth: oklch(0.65 0.08 35);
   --color-border-subtle: oklch(0.88 0.015 40);
@@ -21,7 +23,7 @@
   }
   
   body {
-    @apply bg-warm-white text-charcoal;
+    @apply bg-warm-white text-charcoal-dark;
   }
 
   /* Smooth fade-in animations */

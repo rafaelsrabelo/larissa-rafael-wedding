@@ -44,10 +44,10 @@ export function RSVP() {
       <section className="py-24 px-4" id="confirmar">
         <div className="w-full max-w-xl mx-auto text-center">
           <div className="animate-fade-in-up">
-            <h2 className="font-serif font-light text-4xl sm:text-5xl text-charcoal mb-6">
+            <h2 className="font-serif font-light text-4xl sm:text-5xl text-charcoal-dark mb-6">
               Obrigado!
             </h2>
-            <p className="font-sans text-base sm:text-lg text-charcoal/70">
+            <p className="font-sans font-light text-base sm:text-lg text-charcoal/70">
               Sua confirmação foi recebida com carinho.
             </p>
           </div>
@@ -59,10 +59,10 @@ export function RSVP() {
   return (
     <section className="py-24 px-4" id="confirmar">
       <div className="w-full max-w-xl mx-auto">
-        <h2 className="font-serif font-light text-4xl sm:text-5xl text-center text-charcoal mb-4">
+        <h2 className="font-serif font-light text-4xl sm:text-5xl text-center text-charcoal-dark mb-4">
           Confirme sua presença
         </h2>
-        <p className="font-sans text-sm sm:text-base text-center text-charcoal/60 mb-12">
+        <p className="font-sans font-light text-sm sm:text-base text-center text-charcoal/60 mb-12">
           Ficaremos felizes em ter você conosco
         </p>
 
@@ -81,7 +81,7 @@ export function RSVP() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-0 py-3 bg-transparent border-0 border-b border-charcoal/20 font-sans text-base text-charcoal placeholder:text-charcoal/30 focus:outline-none focus:border-charcoal transition-colors"
+              className="w-full px-0 py-3 bg-transparent border-0 border-b border-charcoal/20 font-sans text-base text-charcoal-dark placeholder:text-charcoal/30 focus:outline-none focus:border-charcoal-dark transition-colors"
               placeholder="Seu nome"
             />
           </div>
@@ -100,7 +100,7 @@ export function RSVP() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-0 py-3 bg-transparent border-0 border-b border-charcoal/20 font-sans text-base text-charcoal placeholder:text-charcoal/30 focus:outline-none focus:border-charcoal transition-colors"
+              className="w-full px-0 py-3 bg-transparent border-0 border-b border-charcoal/20 font-sans text-base text-charcoal-dark placeholder:text-charcoal/30 focus:outline-none focus:border-charcoal-dark transition-colors"
               placeholder="seu@email.com"
             />
           </div>
@@ -118,7 +118,7 @@ export function RSVP() {
               value={formData.guests}
               onChange={handleChange}
               required
-              className="w-full px-0 py-3 bg-transparent border-0 border-b border-charcoal/20 font-sans text-base text-charcoal focus:outline-none focus:border-charcoal transition-colors"
+              className="w-full px-0 py-3 bg-transparent border-0 border-b border-charcoal/20 font-sans text-base text-charcoal-dark focus:outline-none focus:border-charcoal-dark transition-colors"
             >
               {[1, 2, 3, 4].map((num) => (
                 <option key={num} value={num}>
