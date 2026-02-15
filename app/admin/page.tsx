@@ -46,7 +46,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LoadingBrand } from "@/components/admin/loading-brand";
+import { PriceInput } from "@/components/admin/price-input";
 import { authFetch, getToken, clearToken } from "@/lib/admin-api";
+import { formatPrice } from "@/lib/format-price";
 
 type GiftItem = {
   id: string;
@@ -323,7 +325,7 @@ export default function AdminPage() {
                       </CardDescription>
                     )}
                     <p className="font-sans text-sm text-rose-earth mt-0.5">
-                      R$ {Number(item.price).toFixed(2).replace(".", ",")}
+                      {formatPrice(item.price)}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
@@ -402,12 +404,11 @@ export default function AdminPage() {
                   <FormItem>
                     <FormLabel>Preço (R$) *</FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
-                        step="0.01"
-                        min={0}
-                        {...field}
+                      <PriceInput
+                        value={field.value}
+                        onChange={field.onChange}
                         disabled={isSaving}
+                        placeholder="0,00"
                       />
                     </FormControl>
                     <FormMessage />

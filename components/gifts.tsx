@@ -1,19 +1,19 @@
+import Link from "next/link";
 import { Gift, Home } from "lucide-react";
-import { GiftList } from "./gift-list";
 
 const giftOptions = [
   {
     icon: Home,
     title: "Lista de presentes",
     description: "Escolha um presente da nossa lista",
-    link: "#lista-presentes",
+    href: "/presentes",
     linkText: "Ver lista",
   },
   {
     icon: Gift,
     title: "PIX",
     description: "Prefere enviar um presente em dinheiro?",
-    link: "#",
+    href: "#",
     linkText: "Ver dados",
   },
 ];
@@ -30,10 +30,6 @@ export function Gifts() {
           presentear, ficaremos muito gratos.
         </p>
 
-        <div id="lista-presentes">
-          <GiftList />
-        </div>
-
         <div className="grid sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
           {giftOptions.map((option, index) => (
             <div
@@ -49,12 +45,12 @@ export function Gifts() {
               <p className="font-sans font-light text-sm text-charcoal/60 min-h-[3rem]">
                 {option.description}
               </p>
-              <a
-                href={option.link}
+              <Link
+                href={option.href}
                 className="inline-block font-sans text-xs uppercase tracking-widest text-charcoal-dark border-b border-charcoal/20 hover:border-rose-earth hover:text-rose-earth transition-colors pb-1"
               >
                 {option.linkText}
-              </a>
+              </Link>
             </div>
           ))}
         </div>

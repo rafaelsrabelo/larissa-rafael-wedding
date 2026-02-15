@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Gift } from "lucide-react";
+import { formatPrice } from "@/lib/format-price";
 
 type GiftItem = {
   id: string;
@@ -68,7 +69,7 @@ export function GiftList() {
               </p>
             )}
             <p className="font-sans text-sm text-rose-earth mt-2">
-              R$ {Number(item.price).toFixed(2).replace(".", ",")}
+              {formatPrice(item.price)}
             </p>
           </div>
         </article>

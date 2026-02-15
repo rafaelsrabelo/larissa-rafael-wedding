@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
@@ -47,6 +47,19 @@ export default function AdminLoginPage() {
   });
 
   const isSubmitting = form.formState.isSubmitting;
+
+  useEffect(() => {
+    const token = localStorage.getItem("admin_token");
+    if (!token) return;
+    fetch("/api/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then((r) => {
+      if (r.ok) {
+        router.replace("/admin");
+        router.refresh();
+      }
+    });
+  }, [router]);
 
   async function onSubmit(values: LoginForm) {
     setSubmitError(null);
