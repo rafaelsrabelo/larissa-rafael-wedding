@@ -282,7 +282,10 @@ export default function AdminPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="flex justify-end mb-6">
+        <div className="flex items-center justify-between mb-6">
+          <p className="font-sans text-sm text-charcoal/70">
+            Total de {items.length} {items.length === 1 ? "item" : "itens"}
+          </p>
           <Button onClick={openCreate}>
             <Plus className="w-4 h-4" />
             Novo item
