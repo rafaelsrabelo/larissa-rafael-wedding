@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Gift, LayoutGrid, List, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Gift, LayoutGrid, List, ShoppingCart, Trash2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,7 +34,7 @@ export default function PresentesPage() {
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<ViewMode>("cards");
   const [sort, setSort] = useState<SortOption>("a-z");
-  const { addItem, isInCart, items: cartItems } = useCart();
+  const { addItem, removeItem, isInCart, items: cartItems } = useCart();
 
   useEffect(() => {
     fetch("/api/gifts")
@@ -193,8 +193,8 @@ export default function PresentesPage() {
                       animationFillMode: "backwards",
                     }}
                   >
-                    <Card className="overflow-hidden border-charcoal/5 bg-white shadow-none transition-shadow hover:shadow-sm h-full flex flex-col">
-                      <div className="relative aspect-[4/3] bg-charcoal/5">
+                    <Card className="overflow-hidden border-charcoal/5 bg-white shadow-none transition-shadow hover:shadow-sm flex flex-col">
+                      <div className="relative aspect-[4/3] bg-charcoal/5 shrink-0">
                         {item.imageUrl ? (
                           <Image
                             src={item.imageUrl}
@@ -209,33 +209,52 @@ export default function PresentesPage() {
                           </div>
                         )}
                       </div>
-                      <CardContent className="p-4 flex flex-col flex-1 min-w-0">
-                        <h2 className="font-serif text-lg font-light text-charcoal-dark tracking-tight">
-                          {item.name}
-                        </h2>
-                        {item.description && (
-                          <p className="font-sans text-sm text-charcoal/60 mt-1 line-clamp-2 leading-relaxed">
-                            {item.description}
-                          </p>
-                        )}
-                        <p className="font-sans text-sm text-rose-earth mt-2 font-medium">
+                      <CardContent className="flex flex-col flex-1 min-w-0 p-5 pt-4 space-y-3">
+                        <div className="space-y-1.5 min-h-0">
+                          <h2 className="font-serif text-lg font-light text-charcoal-dark tracking-tight">
+                            {item.name}
+                          </h2>
+                          {item.description && (
+                            <p className="font-sans text-sm text-charcoal/60 line-clamp-2 leading-relaxed">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                        <p className="font-sans text-sm text-rose-earth font-medium">
                           {formatPrice(item.price)}
                         </p>
-                        <Button
-                          size="sm"
-                          className="mt-3 w-full"
-                          onClick={() => addItem(item)}
-                          disabled={isInCart(item.id)}
-                        >
-                          {isInCart(item.id) ? (
-                            "No carrinho"
-                          ) : (
-                            <>
-                              <ShoppingCart className="w-4 h-4 mr-2" strokeWidth={1.5} />
-                              Adicionar ao carrinho
-                            </>
-                          )}
-                        </Button>
+                        <div className="pt-2">
+                          <Button
+                            size="sm"
+                            variant={isInCart(item.id) ? "outline" : "default"}
+                            className="w-full"
+                            onClick={() =>
+                              isInCart(item.id) ? removeItem(item.id) : addItem(item)
+                            }
+                          >
+                            <span className="inline-flex items-center justify-center gap-2">
+                              {isInCart(item.id) ? (
+                                <>
+                                  <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center">
+                                    <Trash2 className="size-4" strokeWidth={1.5} />
+                                  </span>
+                                  <span className="inline-flex h-5 items-center leading-none">
+                                    Remover do carrinho
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center">
+                                    <ShoppingCart className="size-4" strokeWidth={1.5} />
+                                  </span>
+                                  <span className="inline-flex h-5 items-center leading-none">
+                                    Adicionar ao carrinho
+                                  </span>
+                                </>
+                              )}
+                            </span>
+                          </Button>
+                        </div>
                       </CardContent>
                     </Card>
                   </li>
@@ -303,10 +322,26 @@ export default function PresentesPage() {
                               size="sm"
                               variant="outline"
                               className="w-full sm:w-auto"
-                              onClick={() => addItem(item)}
-                              disabled={isInCart(item.id)}
+                              onClick={() =>
+                                isInCart(item.id) ? removeItem(item.id) : addItem(item)
+                              }
                             >
-                              {isInCart(item.id) ? "No carrinho" : "Adicionar"}
+                              <span className="inline-flex items-center justify-center gap-2">
+                                {isInCart(item.id) ? (
+                                  <>
+                                    <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center">
+                                      <Trash2 className="size-4" strokeWidth={1.5} />
+                                    </span>
+                                    <span className="hidden sm:inline-flex h-5 items-center leading-none">
+                                      Remover
+                                    </span>
+                                  </>
+                                ) : (
+                                  <span className="inline-flex h-5 items-center leading-none">
+                                    Adicionar
+                                  </span>
+                                )}
+                              </span>
                             </Button>
                           </td>
                         </tr>
