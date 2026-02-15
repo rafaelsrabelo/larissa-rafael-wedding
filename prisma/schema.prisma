@@ -25,3 +25,16 @@ model GiftItem {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model Rsvp {
+  id              String   @id @default(cuid())
+  fullName        String
+  willAttend      Boolean
+  extraAdultNames String[] // nomes dos adultos adicionais (máx. 3, total máx. 4)
+  childNames      String[] // nomes das crianças (limite 0 por regra atual)
+  email           String
+  phone           String
+  message         String?
+  acceptedTerms   Boolean
+  createdAt       DateTime @default(now())
+}

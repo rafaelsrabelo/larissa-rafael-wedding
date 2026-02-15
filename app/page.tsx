@@ -4,6 +4,7 @@ import { Countdown } from "@/components/countdown";
 import { OurStory } from "@/components/our-story";
 import { Details } from "@/components/details";
 import { Gifts } from "@/components/gifts";
+import { RSVP } from "@/components/rsvp";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <OurStory />
       <Details />
       <Gifts />
+      <RSVP />
     </div>
   );
 }

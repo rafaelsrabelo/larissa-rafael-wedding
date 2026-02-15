@@ -9,6 +9,7 @@ const navItems = [
   { label: "Cerimônia", href: "#detalhes" },
   { label: "Recepção", href: "#recepcao" },
   { label: "Presentes", href: "#presentes" },
+  { label: "Confirme sua presença", href: "#confirmar" },
 ];
 
 export function Navbar() {

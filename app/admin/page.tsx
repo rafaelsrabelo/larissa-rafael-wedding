@@ -8,7 +8,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Pencil, Trash2, LogOut, Gift } from "lucide-react";
+import { Plus, Pencil, Trash2, LogOut, Gift, UserCheck } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -262,6 +262,12 @@ export default function AdminPage() {
             </h1>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/admin/confirmados">
+              <Button variant="ghost" size="sm">
+                <UserCheck className="w-4 h-4 mr-1.5" />
+                Confirmados
+              </Button>
+            </Link>
             <Link href="/">
               <Button variant="ghost" size="sm">
                 Ver site
