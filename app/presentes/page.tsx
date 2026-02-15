@@ -17,6 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/lib/format-price";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/cart-context";
+import { toast } from "sonner";
 
 type GiftItem = {
   id: string;
@@ -211,7 +212,10 @@ export default function PresentesPage() {
                       </div>
                       <CardContent className="flex flex-col flex-1 min-w-0 p-5 pt-4 space-y-3">
                         <div className="space-y-1.5 min-h-0">
-                          <h2 className="font-serif text-lg font-light text-charcoal-dark tracking-tight">
+                          <h2
+                            className="font-serif text-lg font-light text-charcoal-dark tracking-tight line-clamp-2"
+                            title={item.name}
+                          >
                             {item.name}
                           </h2>
                           {item.description && (
@@ -228,9 +232,16 @@ export default function PresentesPage() {
                             size="sm"
                             variant={isInCart(item.id) ? "outline" : "default"}
                             className="w-full"
-                            onClick={() =>
-                              isInCart(item.id) ? removeItem(item.id) : addItem(item)
-                            }
+                            onClick={() => {
+                              if (isInCart(item.id)) {
+                                removeItem(item.id);
+                              } else {
+                                addItem(item);
+                                toast.success("Adicionado ao carrinho", {
+                                  description: item.name,
+                                });
+                              }
+                            }}
                           >
                             <span className="inline-flex items-center justify-center gap-2">
                               {isInCart(item.id) ? (
@@ -306,8 +317,13 @@ export default function PresentesPage() {
                               )}
                             </div>
                           </td>
-                          <td className="py-3 px-4 font-serif font-light text-charcoal-dark">
-                            {item.name}
+                          <td className="py-3 px-4 font-serif font-light text-charcoal-dark max-w-[200px] sm:max-w-xs">
+                            <span
+                              className="line-clamp-2 block"
+                              title={item.name}
+                            >
+                              {item.name}
+                            </span>
                           </td>
                           <td className="py-3 px-4 font-sans text-sm text-charcoal/60 hidden sm:table-cell max-w-xs">
                             <span className="line-clamp-2 block">
@@ -322,9 +338,16 @@ export default function PresentesPage() {
                               size="sm"
                               variant="outline"
                               className="w-full sm:w-auto"
-                              onClick={() =>
-                                isInCart(item.id) ? removeItem(item.id) : addItem(item)
-                              }
+                              onClick={() => {
+                                if (isInCart(item.id)) {
+                                  removeItem(item.id);
+                                } else {
+                                  addItem(item);
+                                  toast.success("Adicionado ao carrinho", {
+                                    description: item.name,
+                                  });
+                                }
+                              }}
                             >
                               <span className="inline-flex items-center justify-center gap-2">
                                 {isInCart(item.id) ? (

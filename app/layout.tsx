@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, Noto_Sans_TC } from "next/font/google";
 import { CartProvider } from "@/contexts/cart-context";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const serif = Cormorant_Garamond({
@@ -40,7 +41,10 @@ export default function RootLayout({
         className={`${serif.variable} ${sans.variable} ${notoSansTC.variable} font-sans antialiased bg-warm-white text-charcoal-dark`}
         suppressHydrationWarning
       >
-        <CartProvider>{children}</CartProvider>
+        <CartProvider>
+          {children}
+          <Toaster position="top-center" richColors closeButton />
+        </CartProvider>
       </body>
     </html>
   );
