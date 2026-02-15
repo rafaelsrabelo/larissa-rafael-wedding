@@ -15,6 +15,26 @@
   --color-sand: oklch(0.90 0.025 55);
   --color-rose-earth: oklch(0.65 0.08 35);
   --color-border-subtle: oklch(0.88 0.015 40);
+  
+  /* shadcn/ui (admin) - baseado na paleta do casamento */
+  --background: var(--color-warm-white);
+  --foreground: var(--color-charcoal-dark);
+  --muted: oklch(0.92 0.01 50);
+  --muted-foreground: oklch(0.45 0.02 30);
+  --border: var(--color-border-subtle);
+  --input: var(--color-border-subtle);
+  --ring: var(--color-rose-earth);
+  --primary: var(--color-charcoal-dark);
+  --primary-foreground: var(--color-warm-white);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: white;
+  --card: white;
+  --card-foreground: var(--color-charcoal-dark);
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.25rem);
 }
 
 @layer base {
