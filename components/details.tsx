@@ -18,9 +18,9 @@ export function Details() {
             Cerimônia
           </h2>
 
-          <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="flex flex-col items-center gap-4 sm:gap-6">
             {/* Local */}
-            <div className={`${detailCardClass} sm:col-span-2`}>
+            <div className={`${detailCardClass} w-full max-w-xl text-center`}>
               <p className={labelClass}>Local</p>
               <p className={valueClass}>Igreja Matriz Nossa Senhora dos Remédios</p>
               <p className="font-sans font-light text-sm text-charcoal/60 mt-2">
@@ -37,20 +37,20 @@ export function Details() {
               </a>
             </div>
 
-            {/* Data */}
-            <div className={detailCardClass}>
-              <p className={labelClass}>Data</p>
-              <p className={valueDisplayClass}>13 | 06 | 2026</p>
-            </div>
-
-            {/* Horário */}
-            <div className={detailCardClass}>
-              <p className={labelClass}>Horário</p>
-              <p className={valueDisplayClass}>18h30</p>
+            {/* Data e Horário */}
+            <div className={`${detailCardClass} w-full max-w-xl flex flex-col sm:flex-row sm:items-start sm:justify-center gap-6 sm:gap-8 text-center sm:text-left`}>
+              <div className="flex flex-col items-center">
+                <p className={labelClass}>Data</p>
+                <p className="font-display font-light text-charcoal-dark tracking-[0.15em]">13 | 06 | 2026</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <p className={labelClass}>Horário</p>
+                <p className="font-display font-light text-charcoal-dark tracking-[0.15em]">18h30</p>
+              </div>
             </div>
 
             {/* Traje */}
-            <div className={`${detailCardClass} sm:col-span-2`}>
+            <div className={`${detailCardClass} w-full max-w-xl text-center`}>
               <p className={labelClass}>Traje</p>
               <p className={valueClass}>Passeio Completo</p>
             </div>

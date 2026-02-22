@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 
 const MAX_ADULTS = 4;
-const MAX_CHILDREN = 4;
+const MAX_CHILDREN = 2;
 
 function formatPhone(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -278,7 +278,7 @@ export function RSVP() {
                     sideOffset={4}
                     className="z-[100] bg-white border border-charcoal/10 shadow-xl"
                   >
-                    {[0, 1, 2, 3, 4].map((n) => (
+                    {[0, 1, 2].map((n) => (
                       <SelectItem key={n} value={String(n)}>
                         {n} {n === 1 ? "criança" : "crianças"}
                       </SelectItem>
