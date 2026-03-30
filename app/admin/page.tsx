@@ -47,6 +47,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { LoadingBrand } from "@/components/admin/loading-brand";
 import { PriceInput } from "@/components/admin/price-input";
+import { Switch } from "@/components/ui/switch";
 import { authFetch, getToken, clearToken } from "@/lib/admin-api";
 import { formatPrice } from "@/lib/format-price";
 
@@ -56,6 +57,7 @@ type GiftItem = {
   description: string | null;
   price: number;
   imageUrl: string | null;
+  active: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -202,6 +204,21 @@ export default function AdminPage() {
     },
   });
 
+  const toggleActiveMutation = useMutation({
+    mutationFn: async ({ id, active }: { id: string; active: boolean }) => {
+      const r = await authFetch(`/api/gifts/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ active }),
+      });
+      if (!r.ok) throw new Error("Erro ao atualizar");
+      return r.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "gifts"] });
+    },
+  });
+
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       const r = await authFetch(`/api/gifts/${id}`, { method: "DELETE" });
@@ -334,7 +351,7 @@ export default function AdminPage() {
         ) : (
           <ul className="space-y-4">
             {items.map((item) => (
-              <Card key={item.id}>
+              <Card key={item.id} className={!item.active ? "opacity-50" : ""}>
                 <CardContent className="p-4 flex items-center gap-4">
                   {item.imageUrl ? (
                     <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0 bg-charcoal/5">
@@ -364,7 +381,15 @@ export default function AdminPage() {
                       {formatPrice(item.price)}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <Switch
+                      checked={item.active}
+                      onCheckedChange={(checked) =>
+                        toggleActiveMutation.mutate({ id: item.id, active: checked })
+                      }
+                      aria-label={item.active ? "Desativar" : "Ativar"}
+                      className="data-[state=checked]:bg-emerald-600 data-[state=unchecked]:bg-charcoal/30"
+                    />
                     <Button
                       variant="ghost"
                       size="icon"

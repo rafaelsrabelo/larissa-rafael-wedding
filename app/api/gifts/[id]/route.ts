@@ -45,6 +45,8 @@ export async function PUT(
       body.imageUrl !== undefined
         ? (body.imageUrl == null ? null : String(body.imageUrl).trim())
         : undefined;
+    const active =
+      body.active !== undefined ? body.active === true : undefined;
 
     if (name !== undefined && !name) {
       return NextResponse.json(
@@ -69,6 +71,7 @@ export async function PUT(
         ...(description !== undefined && { description }),
         ...(price !== undefined && { price }),
         ...(imageUrl !== undefined && { imageUrl }),
+        ...(active !== undefined && { active }),
       },
     });
     return NextResponse.json(item);

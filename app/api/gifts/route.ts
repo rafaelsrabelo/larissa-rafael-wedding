@@ -2,8 +2,13 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getBearerToken, verifyToken } from "@/lib/auth";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const token = getBearerToken(request);
+  const payload = token ? await verifyToken(token) : null;
+  const isAdmin = !!payload;
+
   const items = await prisma.giftItem.findMany({
+    where: isAdmin ? {} : { active: true },
     orderBy: { createdAt: "asc" },
   });
   return NextResponse.json(items);
