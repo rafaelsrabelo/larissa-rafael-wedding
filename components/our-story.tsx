@@ -9,7 +9,7 @@ export function OurStory() {
           <div className="relative order-2 lg:order-1">
             <div className="relative aspect-[4/5] sm:aspect-[3/4] max-h-[520px] overflow-hidden">
               <Image
-                src="/DSC00950.jpg"
+                src="/nossa-historia-optimized.jpg"
                 alt="Larissa e Rafael"
                 fill
                 className="object-cover object-center"

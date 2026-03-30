@@ -3,15 +3,47 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Gift, Trash2 } from "lucide-react";
+import { ArrowLeft, Gift, Loader2, Trash2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { formatPrice } from "@/lib/format-price";
 import { useCart } from "@/contexts/cart-context";
+import { toast } from "sonner";
 
 export default function CarrinhoPage() {
   const { items, removeItem, total } = useCart();
   const [mounted, setMounted] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+
+  async function handleCheckout() {
+    if (!customerName.trim()) {
+      toast.error("Preencha seu nome.");
+      return;
+    }
+
+    setCheckingOut(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items,
+          customerName: customerName.trim(),
+          customerEmail: customerEmail.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Erro ao iniciar pagamento.");
+      window.location.href = data.url;
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erro ao iniciar pagamento.");
+      setCheckingOut(false);
+    }
+  }
 
   useEffect(() => {
     setMounted(true);
@@ -126,14 +158,61 @@ export default function CarrinhoPage() {
               </CardContent>
             </Card>
 
+            {/* Dados do presenteador */}
+            <Card className="border-charcoal/10">
+              <CardContent className="p-6 space-y-4">
+                <h2 className="font-serif text-lg font-light text-charcoal-dark">
+                  Seus dados
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="customerName" className="font-sans text-sm text-charcoal/70">
+                      Nome completo *
+                    </Label>
+                    <Input
+                      id="customerName"
+                      placeholder="Seu nome"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      disabled={checkingOut}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="customerEmail" className="font-sans text-sm text-charcoal/70">
+                      E-mail
+                    </Label>
+                    <Input
+                      id="customerEmail"
+                      type="email"
+                      placeholder="seu@email.com"
+                      value={customerEmail}
+                      onChange={(e) => setCustomerEmail(e.target.value)}
+                      disabled={checkingOut}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link href="/presentes" className="flex-1 sm:flex-initial">
                 <Button variant="outline" className="w-full sm:w-auto">
                   Continuar comprando
                 </Button>
               </Link>
-              <Button className="w-full sm:flex-1" disabled title="Em breve">
-                Finalizar seleção (em breve)
+              <Button
+                className="w-full sm:flex-1"
+                disabled={checkingOut || !customerName.trim()}
+                onClick={handleCheckout}
+              >
+                {checkingOut ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Redirecionando…
+                  </>
+                ) : (
+                  "Finalizar pagamento"
+                )}
               </Button>
             </div>
           </div>

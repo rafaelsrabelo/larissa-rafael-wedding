@@ -15,7 +15,7 @@ export function Hero() {
       {/* Foto do pré-wedding como fundo - posicionada para mostrar o casal */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/DSC00142.jpg"
+          src="/hero-optimized.jpg"
           alt="Larissa e Rafael - pré-wedding"
           fill
           className="object-cover"

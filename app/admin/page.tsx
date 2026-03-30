@@ -8,7 +8,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Pencil, Trash2, LogOut, Gift, UserCheck } from "lucide-react";
+import { Plus, Pencil, Trash2, LogOut, Gift, UserCheck, Package } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -105,6 +105,22 @@ export default function AdminPage() {
       if (!r.ok) throw new Error("Failed to fetch");
       const data = await r.json();
       return Array.isArray(data) ? data as GiftItem[] : [];
+    },
+    enabled: meSuccess,
+  });
+
+  const { data: newOrderCount = 0 } = useQuery({
+    queryKey: ["admin", "orders", "new-count"],
+    queryFn: async () => {
+      const r = await authFetch("/api/orders");
+      if (!r.ok) return 0;
+      const data = await r.json();
+      if (!Array.isArray(data)) return 0;
+      const lastSeen = localStorage.getItem("admin_pedidos_last_seen") ?? "0";
+      return data.filter(
+        (o: { status: string; createdAt: string }) =>
+          o.status === "paid" && new Date(o.createdAt).getTime() > Number(lastSeen)
+      ).length;
     },
     enabled: meSuccess,
   });
@@ -262,6 +278,17 @@ export default function AdminPage() {
             </h1>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/admin/pedidos" className="relative">
+              <Button variant="ghost" size="sm">
+                <Package className="w-4 h-4 mr-1.5" />
+                Pedidos
+              </Button>
+              {newOrderCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-earth px-1 text-[10px] font-sans font-medium text-white">
+                  {newOrderCount}
+                </span>
+              )}
+            </Link>
             <Link href="/admin/confirmados">
               <Button variant="ghost" size="sm">
                 <UserCheck className="w-4 h-4 mr-1.5" />
