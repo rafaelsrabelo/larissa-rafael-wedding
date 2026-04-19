@@ -24,6 +24,9 @@ npm run db:setup     # db:push + db:seed (first-time setup)
 Required in `.env`:
 - `DATABASE_URL` — PostgreSQL connection string (e.g., `postgresql://postgres:postgres@localhost:5432/wedding`)
 - `JWT_SECRET` — Secret for JWT token signing
+- `MP_ACCESS_TOKEN` — Mercado Pago access token (use test token `APP_USR-...` in dev, production token in prod)
+- `MP_WEBHOOK_SECRET` — Mercado Pago webhook secret for HMAC signature validation (optional in dev, recommended in prod)
+- `NEXT_PUBLIC_MP_PUBLIC_KEY` — Mercado Pago public key (opcional; usada apenas se integrar Bricks no futuro)
 
 ## Architecture
 
@@ -42,11 +45,20 @@ JWT-authenticated admin panel for managing gift items and viewing RSVP confirmat
 - `app/api/gifts/` — GET (public), POST (admin-only)
 - `app/api/gifts/[id]/` — PUT/DELETE (admin-only)
 - `app/api/rsvp/` — GET (admin-only), POST (public)
+- `app/api/checkout/` — POST (public) cria Mercado Pago Preference e retorna `init_point`
+- `app/api/webhook/mercadopago/` — POST (público) recebe notificações de pagamento do MP e atualiza o status da Order
+- `app/api/orders/` — GET (admin-only) lista pedidos com items
 
 All admin-protected routes check Bearer token via `lib/auth.ts` (`getBearerToken` + `verifyToken`).
 
 ### Database (Prisma)
-Three models: `Admin` (login credentials), `GiftItem` (registry items), `Rsvp` (attendance confirmations with guest names). Schema at `prisma/schema.prisma`. Uses `@prisma/adapter-pg` for PostgreSQL connection (`lib/db.ts`).
+Five models: `Admin` (login credentials), `GiftItem` (registry items), `Order` + `OrderItem` (pedidos de presentes com `mpPreferenceId`/`mpPaymentId` do Mercado Pago), `Rsvp` (attendance confirmations with guest names). Schema at `prisma/schema.prisma`. Uses `@prisma/adapter-pg` for PostgreSQL connection (`lib/db.ts`).
+
+### Pagamentos (Mercado Pago Checkout Pro)
+- SDK: `mercadopago` (client em `lib/mercadopago.ts`)
+- Fluxo: `/carrinho` → POST `/api/checkout` → cria `Preference` → redirect para `init_point` → pagamento no ambiente MP → redirect para `/carrinho/sucesso` + notificação para `/api/webhook/mercadopago`
+- Status da Order: `pending` (aguardando/PIX/boleto), `paid` (approved), `failed` (rejected/cancelled/refunded)
+- O `external_reference` da preferência guarda o ID da Order para o webhook vincular
 
 ## Design System
 

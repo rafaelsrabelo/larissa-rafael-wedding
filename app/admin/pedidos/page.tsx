@@ -27,8 +27,8 @@ type OrderItem = {
 
 type Order = {
   id: string;
-  stripeSessionId: string;
-  stripePaymentId: string | null;
+  mpPreferenceId: string;
+  mpPaymentId: string | null;
   customerName: string | null;
   customerEmail: string | null;
   totalAmount: number;
