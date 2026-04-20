@@ -26,8 +26,22 @@ const notoSansTC = Noto_Sans_TC({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.larissaerafael.site"),
   title: "Larissa & Rafael • 13.06.26",
   description: "Celebre conosco o nosso casamento em 13 de junho de 2026",
+  openGraph: {
+    title: "Larissa & Rafael • 13.06.26",
+    description: "Celebre conosco o nosso casamento em 13 de junho de 2026",
+    url: "https://www.larissaerafael.site",
+    siteName: "Larissa & Rafael",
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Larissa & Rafael • 13.06.26",
+    description: "Celebre conosco o nosso casamento em 13 de junho de 2026",
+  },
 };
 
 export default function RootLayout({
