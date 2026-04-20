@@ -37,6 +37,8 @@ export async function POST(request: Request) {
     }
 
     const origin = request.headers.get("origin") ?? "http://localhost:3000";
+    const isPublicHttps =
+      origin.startsWith("https://") && !origin.includes("localhost");
     const totalAmount = items.reduce((sum, i) => sum + i.price, 0);
 
     const order = await prisma.order.create({
@@ -75,9 +77,11 @@ export async function POST(request: Request) {
           failure: `${origin}/carrinho`,
           pending: `${origin}/carrinho/sucesso`,
         },
-        auto_return: "approved",
+        ...(isPublicHttps ? { auto_return: "approved" } : {}),
         external_reference: order.id,
-        notification_url: `${origin}/api/webhook/mercadopago`,
+        ...(isPublicHttps
+          ? { notification_url: `${origin}/api/webhook/mercadopago` }
+          : {}),
         metadata: {
           customer_name: customerName.trim(),
           gift_item_ids: items.map((i) => i.id).join(","),
