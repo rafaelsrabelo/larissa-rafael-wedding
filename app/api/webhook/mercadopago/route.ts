@@ -56,6 +56,10 @@ function verifySignature(request: Request, dataId: string): boolean {
   }
 }
 
+export async function GET() {
+  return NextResponse.json({ ok: true });
+}
+
 export async function POST(request: Request) {
   try {
     const url = new URL(request.url);
