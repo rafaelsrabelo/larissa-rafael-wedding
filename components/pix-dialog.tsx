@@ -59,15 +59,15 @@ export function PixDialog({ triggerLabel }: { triggerLabel: string }) {
           <div className="grid grid-cols-3 gap-2 text-sm font-sans">
             <span className="text-charcoal/60">Chave (CPF)</span>
             <span className="col-span-2 font-medium text-charcoal-dark">
-              065.381.843-24
+              068.179.963-33
             </span>
             <span className="text-charcoal/60">Favorecido</span>
             <span className="col-span-2 font-medium text-charcoal-dark">
-              Rafael Santana Rabelo
+              Larissa Garcia Freire
             </span>
             <span className="text-charcoal/60">Banco</span>
             <span className="col-span-2 text-charcoal-dark">
-              Qualquer banco via PIX
+              Bradesco
             </span>
           </div>
 

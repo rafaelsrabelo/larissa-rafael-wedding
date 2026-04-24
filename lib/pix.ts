@@ -62,7 +62,7 @@ export function generatePixPayload({
 }
 
 export const weddingPix = {
-  key: "06538184324",
-  name: "Rafael Santana Rabelo",
+  key: "06817996333",
+  name: "Larissa Garcia Freire",
   city: "FORTALEZA",
 } as const;
