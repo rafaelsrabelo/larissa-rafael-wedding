@@ -3,8 +3,8 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Package, Gift } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, Package, Gift, Trash2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -13,6 +13,16 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { LoadingBrand } from "@/components/admin/loading-brand";
 import { authFetch, getToken, clearToken } from "@/lib/admin-api";
 import { formatPrice } from "@/lib/format-price";
@@ -47,8 +57,10 @@ type StatusFilter = "all" | "paid" | "pending";
 
 export default function PedidosPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [mounted, setMounted] = useState(false);
   const [filter, setFilter] = useState<StatusFilter>("all");
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -78,6 +90,20 @@ export default function PedidosPage() {
       return Array.isArray(data) ? (data as Order[]) : [];
     },
     enabled: meSuccess,
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const r = await authFetch(`/api/orders/${id}`, { method: "DELETE" });
+      if (!r.ok) {
+        const data = await r.json().catch(() => ({}));
+        throw new Error(data?.error ?? "Erro ao excluir pedido");
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
+      setDeleteId(null);
+    },
   });
 
   useEffect(() => {
@@ -232,15 +258,28 @@ export default function PedidosPage() {
                       ))}
                     </div>
 
-                    <p className="font-sans text-xs text-charcoal/40">
-                      {new Date(order.createdAt).toLocaleDateString("pt-BR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <p className="font-sans text-xs text-charcoal/40">
+                        {new Date(order.createdAt).toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                      {order.status === "pending" && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setDeleteId(order.id)}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="w-4 h-4 mr-1.5" />
+                          Excluir
+                        </Button>
+                      )}
+                    </div>
                   </CardContent>
                 </Card>
               );
@@ -248,6 +287,31 @@ export default function PedidosPage() {
           </ul>
         )}
       </main>
+
+      <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir pedido</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza? Esta ação removerá o pedido pendente permanentemente.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteId && deleteMutation.mutate(deleteId)}
+              disabled={deleteMutation.isPending}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {deleteMutation.isPending ? (
+                <LoadingBrand className="py-1" />
+              ) : (
+                "Excluir"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
