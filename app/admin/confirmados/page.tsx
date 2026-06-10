@@ -3,8 +3,9 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, UserCheck, Users, UserX, Mail, Phone, MessageCircle } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { ArrowLeft, UserCheck, Users, UserX, Mail, Phone, MessageCircle, Trash2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -12,6 +13,17 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { LoadingBrand } from "@/components/admin/loading-brand";
 import { authFetch, getToken, clearToken } from "@/lib/admin-api";
 import { cn } from "@/lib/utils";
@@ -51,6 +63,8 @@ export default function AdminConfirmadosPage() {
     staleTime: 5 * 60 * 1000,
   });
 
+  const queryClient = useQueryClient();
+
   const {
     data: list = [],
     isLoading,
@@ -64,6 +78,20 @@ export default function AdminConfirmadosPage() {
       return Array.isArray(data) ? (data as RsvpItem[]) : [];
     },
     enabled: meSuccess,
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const r = await authFetch(`/api/rsvp/${id}`, { method: "DELETE" });
+      if (!r.ok) throw new Error("Failed to delete");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "rsvp"] });
+      toast.success("Confirmação excluída.");
+    },
+    onError: () => {
+      toast.error("Erro ao excluir confirmação.");
+    },
   });
 
   useEffect(() => {
@@ -320,16 +348,48 @@ export default function AdminConfirmadosPage() {
                       </div>
                     )}
 
-                    {/* Data */}
-                    <p className="font-sans text-[11px] text-charcoal/30">
-                      {new Date(r.createdAt).toLocaleDateString("pt-BR", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
+                    {/* Data + ações */}
+                    <div className="flex items-center justify-between gap-2 pt-1">
+                      <p className="font-sans text-[11px] text-charcoal/30">
+                        {new Date(r.createdAt).toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 px-2 text-charcoal/40 hover:text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-3.5 h-3.5 mr-1" strokeWidth={1.5} />
+                            Excluir
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Excluir confirmação?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              A confirmação de <strong>{r.fullName}</strong> será
+                              removida permanentemente. Esta ação não pode ser desfeita.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => deleteMutation.mutate(r.id)}
+                              className="bg-red-600 text-white hover:bg-red-700"
+                            >
+                              Excluir
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
                   </CardContent>
                 </Card>
               );
